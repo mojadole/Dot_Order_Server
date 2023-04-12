@@ -19,12 +19,13 @@ public class MenuService {
     StoreRepository storeRepsitory;
     @Autowired
     MenuRepository menuRepository;
-
+    @Transactional
     public int saveStore(StoreDto storeDto){
         Store store = storeDto.toEntity();
         storeRepsitory.save(store);
         return store.getIdx();
     }
+    @Transactional
     public Store findById(int idx){
         Store entity = storeRepsitory.findById(idx).orElseThrow(()-> new IllegalArgumentException("해당 가게가 없습니다. id="+idx));
         return entity;
