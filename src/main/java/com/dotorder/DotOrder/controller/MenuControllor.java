@@ -30,7 +30,7 @@ public class MenuControllor {
     }
 
     @PostMapping("/menu")
-    @Operation(summary = "{idx}/menu/post", description = "메뉴 작성")
+    @Operation(summary = "{idx}/menu", description = "메뉴 작성")
     @Parameters({@Parameter(name = "name", description = "메뉴", example = "참치김밥"),
             @Parameter(name = "price", description = "가격", example = "2500"),
             @Parameter(name = "category", description = "카테고리", example = "RICE")})
