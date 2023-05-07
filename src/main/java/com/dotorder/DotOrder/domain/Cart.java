@@ -1,5 +1,6 @@
 package com.dotorder.DotOrder.domain;
 
+import com.dotorder.DotOrder.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Cart {
+public class Cart extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idx;
@@ -29,12 +30,16 @@ public class Cart {
     @Schema(description = "수량")
     private int count;
 
+    @Column(nullable = true)
+    @Schema(description = "가격")
+    private int price;
 
     @Builder
-    public Cart(Users user, Menu menu, int count){
+    public Cart(Users user, Menu menu, int count, int price){
         this.user=user;
         this.menu=menu;
         this.count=count;
+        this.price = price;
     }
 
 }
