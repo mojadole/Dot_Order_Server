@@ -4,9 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class StoreDto {
     @Schema(description = "가게 이름", example = "김밥 천국")
     private String name;
@@ -20,10 +22,23 @@ public class StoreDto {
         this.gps = gps;
     }
 
+    public StoreDto(Store store) {
+        this.name = store.getName();
+        this.gps = store.getGps();
+    }
+
+
     public Store toEntity(){
         return Store.builder()
                 .name(name)
                 .gps(gps)
                 .build();
     }
+    public static StoreDto fromEntity(Store store) {
+        return StoreDto.builder()
+                .name(store.getName())
+                .gps(store.getGps())
+                .build();
+    }
 }
+

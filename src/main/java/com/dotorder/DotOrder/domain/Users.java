@@ -1,5 +1,6 @@
 package com.dotorder.DotOrder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,8 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,13 @@
 package com.dotorder.DotOrder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -12,10 +16,13 @@ import java.util.Properties;
 
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @DynamicInsert
 @Table(name = "menu")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

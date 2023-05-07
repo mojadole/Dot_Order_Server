@@ -12,29 +12,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+
 @NoArgsConstructor
 @Service
 public class MenuService {
     @Autowired
-    StoreRepository storeRepsitory;
+    StoreRepository storeRepository;
     @Autowired
     MenuRepository menuRepository;
     @Transactional
     public int saveStore(StoreDto storeDto){
         Store store = storeDto.toEntity();
-        storeRepsitory.save(store);
+        storeRepository.save(store);
         return store.getIdx();
     }
     @Transactional
     public Store findById(int idx){
-        Store entity = storeRepsitory.findById(idx).orElseThrow(()-> new IllegalArgumentException("해당 가게가 없습니다. id="+idx));
+        Store entity = storeRepository.findById(idx).orElseThrow(()-> new IllegalArgumentException("해당 가게가 없습니다. id="+idx));
         return entity;
     }
+
+    @Transactional
+    public Menu findByName(String name){
+        Menu entity = menuRepository.findByName(name);
+        return entity;
+    }
+
     @Transactional
     public Menu saveMenu(MenuDto menuDto, Store store)
     {
-        menuDto.setStore(store);
-        Menu menu = menuDto.toEntity();
+        //Store store= storeDto.toEntity();
+        StoreDto storeDto = StoreDto.fromEntity(store);
+        menuDto.setStoreDto(storeDto);
+        Menu menu = menuDto.toEntity(store.getIdx(), storeRepository);
         menuRepository.save(menu);
         return menu;
     }
