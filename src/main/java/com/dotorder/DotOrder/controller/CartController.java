@@ -34,14 +34,18 @@ public class CartController {
         return cartService.saveCart(cartDto);
     }
 
-    //장바구니 버튼 눌렀을 때 -> 담아둔 리스트 / 유저 번호 받아서, 해당 유저 Idx의 장바구니 가져오기. +시간도 포함?
+    //장바구니 버튼 눌렀을 때 -> 담아둔 리스트 / 유저 번호 받아서, 해당 유저 Idx의 장바구니 가져오기. +시간 포함
     @GetMapping("{idx}/list")
     public ResponseEntity<List<CartListResponseDto>> getUserCarts(@PathVariable int idx){
         List<CartListResponseDto> carts = cartService.getCartsByUserId(idx);
         return new ResponseEntity<>(carts, HttpStatus.OK);
     }
 
-    //장바구니 수량 변경 -> 유저idx,메뉴 이름, 변경할 수량
+    //장바구니 수량 변경
+    @PatchMapping("{idx}/update")
+    public ResponseEntity<Cart> update(@PathVariable int idx, @RequestParam String menu_name, @RequestParam  int count){
+        Cart updatedCart = cartService.update(idx, menu_name, count);
+        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+    }
 
-    //
 }
