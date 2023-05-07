@@ -1,8 +1,5 @@
 package com.dotorder.DotOrder.domain;
 
-import com.dotorder.DotOrder.BaseTimeEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,16 +12,18 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "Cart")
+@Table(name = "Order_detail")
 
-public class Cart extends BaseTimeEntity {
+public class Order_detail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idx;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_idx")
-    private Users user;
+    @JoinColumn(name = "order_idx")
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_idx")
@@ -35,15 +34,14 @@ public class Cart extends BaseTimeEntity {
     private int count;
 
     @Column(nullable = true)
-    @Schema(description = "총 가격")
-    private int price;
+    @Schema(description = "후기")
+    private boolean good;
 
     @Builder
-    public Cart(Users user, Menu menu, int count, int price){
-        this.user=user;
+    public Order_detail(Order order, Menu menu, int count, boolean good){
+        this.order=order;
         this.menu=menu;
         this.count=count;
-        this.price = price;
+        this.good=good;
     }
-
 }

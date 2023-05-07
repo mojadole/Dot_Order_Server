@@ -15,5 +15,5 @@ public interface CartRepository extends JpaRepository <Cart, Integer>{
     List<Cart> findByUserAndCreatedDateAfter(Users user, LocalDateTime dateTime);
     Optional<Cart> findByUserAndMenu(Users user, Menu menu);
 
-
+    List<Cart> findByUser(Users user);
 }
