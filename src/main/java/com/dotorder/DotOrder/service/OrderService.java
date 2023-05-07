@@ -57,10 +57,25 @@ public class OrderService {
 
         // Clear the user's cart after placing the order
         cartRepository.deleteAll(carts);
-
+        //orderidx만 반환해도 괜찮을듯
         return order;
     }
+    @Transactional
+    public OrderResponseDto getOrderById(int order_idx) {
+        Order order = orderRepository.findById(order_idx)
+                .orElseThrow(() -> new NoSuchElementException("Order not found"));
 
+        List<Order_detail> orderDetails = orderDetailRepository.findByOrder(order);
+
+        List<OrderDetailResponseDto> orderDetailResponseDtos = orderDetails.stream()
+                .map(OrderDetailResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new OrderResponseDto(order, orderDetailResponseDtos);
+    }
+
+    @Transactional
+    //최근 주문 내역 (모든 가게 다)
     public List<OrderResponseDto> getOrdersByUserId(int user_idx) {
         Users user = usersRepository.findById(user_idx)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));

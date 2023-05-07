@@ -20,6 +20,14 @@ public class OrderController {
         Order order = orderService.createOrder(idx);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
+
+
+    @GetMapping("{order_idx}")
+    public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable int order_idx) {
+        OrderResponseDto orderResponseDto = orderService.getOrderById(order_idx);
+        return new ResponseEntity<>(orderResponseDto, HttpStatus.OK);
+    }
+
     @GetMapping("/{user_idx}/orders")
     public ResponseEntity<List<OrderResponseDto>> getUserOrders(@PathVariable int user_idx) {
         List<OrderResponseDto> orders = orderService.getOrdersByUserId(user_idx);
