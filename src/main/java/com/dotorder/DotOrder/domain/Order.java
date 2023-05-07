@@ -12,7 +12,6 @@ import java.sql.ConnectionBuilder;
 
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
 @Table(name = "orders")
 
@@ -38,5 +37,6 @@ public class Order extends BaseTimeEntity {
         this.price= price;
         this.status=status;
     }
+    public void setStatus(String status) {this.status = status;}
 
 }
