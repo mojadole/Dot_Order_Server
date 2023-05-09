@@ -24,11 +24,11 @@ public class Order extends BaseTimeEntity {
     private Users user;
 
     @Column
-    @Schema(description = "가격")
+    @Schema(description = "가격", example = "2500")
     private int price;
 
     @Column
-    @Schema(description = "상태")
+    @Schema(description = "상태", example = "WAIT, DOING, FINISH 중 1")
     private String status;
 
     @Builder

@@ -31,11 +31,11 @@ public class Cart extends BaseTimeEntity {
     private Menu menu;
 
     @Column
-    @Schema(description = "수량")
+    @Schema(description = "수량", example = "1")
     private int count;
 
     @Column(nullable = true)
-    @Schema(description = "총 가격")
+    @Schema(description = "총 가격", example = "5000")
     private int price;
 
     @Builder

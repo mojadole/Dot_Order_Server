@@ -30,11 +30,11 @@ public class Order_detail {
     private Menu menu;
 
     @Column
-    @Schema(description = "수량")
+    @Schema(description = "수량", example = "1")
     private int count;
 
     @Column(nullable = true)
-    @Schema(description = "후기")
+    @Schema(description = "후기", example = "True = 좋았음")
     private boolean good;
 
     @Builder

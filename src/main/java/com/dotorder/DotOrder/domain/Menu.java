@@ -44,7 +44,7 @@ public class Menu {
     private int price;
 
     @Column(nullable = false)
-    @Schema(description = "카테고리", example = "RICE")
+    @Schema(description = "카테고리", example = "RICE, NOODLE, MEET, SOUP 중 1")
     @Enumerated(EnumType.STRING)
     private Category category;
 
