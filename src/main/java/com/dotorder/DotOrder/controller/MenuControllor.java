@@ -36,8 +36,7 @@ public class MenuControllor {
     @PostMapping("/menu")
     @Operation(summary = "{idx}/menu", description = "메뉴 작성 추가(백에서 DB에 추가 예정) test용")
     @Parameters({@Parameter(name = "name", description = "메뉴", example = "참치김밥"),
-            @Parameter(name = "price", description = "가격", example = "2500"),
-            @Parameter(name = "category", description = "카테고리", example = "RICE")})
+            @Parameter(name = "price", description = "가격", example = "2500")})
 
     public Menu saveMenu(@PathVariable int idx, @RequestBody MenuDto menuDto){
         Store store = menuService.findById(idx);
