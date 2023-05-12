@@ -20,28 +20,33 @@ import java.util.Optional;
 @Tag(name = "menu", description = "메뉴")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/{idx}")
+@RequestMapping("/store")
 public class MenuControllor {
     private final StoreRepository storeRepository;
 
 
     private final MenuService menuService;
 
-    @PostMapping("/store")
-    @Operation(summary = "{idx}/store", description = "가게 추가(백에서 DB에 추가 예정) test용")
+    @PostMapping("/save")
+    @Operation(summary = "/store/save", description = "가게 추가(백에서 DB에 추가 예정) test용")
     public int save(@RequestBody StoreDto storeDto){
         return menuService.saveStore(storeDto);
     }
 
-    @PostMapping("/menu")
-    @Operation(summary = "{idx}/menu", description = "메뉴 작성 추가(백에서 DB에 추가 예정) test용")
+    @PostMapping("{store_idx}/menu")
+    @Operation(summary = "/store/{store_idx}/menu", description = "메뉴 작성 추가(백에서 DB에 추가 예정) test용")
     @Parameters({@Parameter(name = "name", description = "메뉴", example = "참치김밥"),
             @Parameter(name = "price", description = "가격", example = "2500")})
 
-    public Menu saveMenu(@PathVariable int idx, @RequestBody MenuDto menuDto){
-        Store store = menuService.findById(idx);
+    public Menu saveMenu(@PathVariable int store_idx, @RequestBody MenuDto menuDto){
+        Store store = menuService.findById(store_idx);
         Menu menu;
         menu = menuService.saveMenu(menuDto, store);
         return menu;
+    }
+    @GetMapping("/gps")
+    @Operation(summary = "store/gps", description = "gps로 스토어 이름 찾기")
+    public String returnStore(@RequestParam String gps){
+        return "김밥천국";
     }
 }
