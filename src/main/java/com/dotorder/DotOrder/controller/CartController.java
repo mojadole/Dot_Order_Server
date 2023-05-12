@@ -42,7 +42,7 @@ public class CartController {
     }
 
     //장바구니 버튼 눌렀을 때 -> 담아둔 리스트 / 유저 번호 받아서, 해당 유저 Idx의 장바구니 가져오기. +시간 포함
-    @GetMapping("{idx}/list")
+    @GetMapping("{user_idx}/list")
     @Operation(summary = "/cart/1/list", description = "idx=유저 아이디, 유저가 장바구니에 담아둔 항목 가져오기")
     public ResponseEntity<List<CartListResponseDto>> getUserCarts(@PathVariable int idx){
         List<CartListResponseDto> carts = cartService.getCartsByUserId(idx);
@@ -50,7 +50,7 @@ public class CartController {
     }
 
     //장바구니 수량 변경
-    @PatchMapping("{idx}/update")
+    @PatchMapping("{user_idx}/update")
     @Operation(summary = "/cart/1/update", description = "장바구니 제품 수량 변경, 메뉴 이름과 바뀐 수량 requestparam")
     public ResponseEntity<Cart> update(@PathVariable int idx, @RequestParam String menu_name, @RequestParam  int count){
         Cart updatedCart = cartService.update(idx, menu_name, count);

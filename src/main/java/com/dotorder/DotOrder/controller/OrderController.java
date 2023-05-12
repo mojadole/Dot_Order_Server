@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    @PostMapping("/{idx}/place")
+    @PostMapping("/{user_idx}/place")
     @Operation(summary = "/order/{user_idx}/place", description = "장바구니에 담긴 음식들을 주문하는 api(장바구니 삭제 및 주문)")
     public ResponseEntity<Order> placeOrder(@PathVariable int idx) {
         Order order = orderService.createOrder(idx);
