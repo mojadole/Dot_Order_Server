@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @NoArgsConstructor
@@ -23,6 +24,12 @@ public class MenuService {
     MenuRepository menuRepository;
     @Transactional
     public int saveStore(StoreDto storeDto){
+
+        String storeName = storeDto.getName();
+        Store existingStore = storeRepository.findByName(storeName);
+        if (existingStore != null) {
+            throw new IllegalArgumentException("Store already exists");
+        }
         Store store = storeDto.toEntity();
         storeRepository.save(store);
         return store.getIdx();
@@ -42,7 +49,17 @@ public class MenuService {
     @Transactional
     public Menu saveMenu(MenuDto menuDto, Store store)
     {
-        //Store store= storeDto.toEntity();
+        if (store == null) {
+            throw new NoSuchElementException("Store does not exist");
+        }
+
+        String menuName = menuDto.getName();
+        Menu existingMenu = menuRepository.findByNameAndStore(menuName, store);
+
+        if (existingMenu != null) {
+            throw new IllegalArgumentException("Menu already exists in the store");
+        }
+
         StoreDto storeDto = StoreDto.fromEntity(store);
         menuDto.setStoreDto(storeDto);
         Menu menu = menuDto.toEntity(store.getIdx(), storeRepository);

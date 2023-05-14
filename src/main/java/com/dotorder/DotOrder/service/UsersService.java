@@ -19,6 +19,10 @@ public class UsersService {
 
     @Transactional
     public int saveUsers(UsersDto usersDto){
+        if(usersRepository.findById(usersDto.getId()).isPresent()){
+            throw new IllegalArgumentException("User ID already exists.");
+        }
+
         Users users = usersDto.toEntity();
         usersRepository.save(users);
         return users.getIdx();

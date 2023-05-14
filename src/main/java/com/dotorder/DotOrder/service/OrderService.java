@@ -36,6 +36,9 @@ public class OrderService {
         Users user = usersRepository.findById(user_idx)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
         List<Cart> carts = cartRepository.findByUser(user);
+        if (carts.isEmpty()) {
+            throw new IllegalArgumentException("Cart is empty");
+        }
 
         int totalPrice = carts.stream()
                 .mapToInt(cart -> cart.getPrice())

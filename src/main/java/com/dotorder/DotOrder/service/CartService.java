@@ -17,6 +17,7 @@ import java.time.Duration;
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @NoArgsConstructor
 @Service
@@ -32,7 +33,18 @@ public class CartService {
     {
         Users user = usersRepository.findById(cartDto.getUser().getIdx())
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        String menuName = cartDto.getMenu().getName();
         Menu menu = menuRepository.findByName(cartDto.getMenu().getName());
+        if (menu == null) {
+            throw new NoSuchElementException("Menu does not exist");
+        }
+
+        Optional<Cart> existingCart = cartRepository.findByUserAndMenu(user, menu);
+        if (existingCart.isPresent()) {
+            throw new IllegalArgumentException("The menu is already in the cart");
+        }
+
         Hibernate.initialize(menu.getStore());
         cartDto.setUser(user);
         cartDto.setMenu(menu);
@@ -57,6 +69,11 @@ public class CartService {
         Users user = usersRepository.findById(user_idx)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
         Menu menu = menuRepository.findByName(menu_name);
+
+        if (menu == null) {
+            throw new NoSuchElementException("Menu does not exist");
+        }
+
         Cart cart = cartRepository.findByUserAndMenu(user, menu)
                 .orElseThrow(() -> new NoSuchElementException("Cart not found"));
 

@@ -16,4 +16,6 @@ public interface CartRepository extends JpaRepository <Cart, Integer>{
     Optional<Cart> findByUserAndMenu(Users user, Menu menu);
 
     List<Cart> findByUser(Users user);
+
+
 }
