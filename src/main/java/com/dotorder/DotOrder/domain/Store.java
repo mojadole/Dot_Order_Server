@@ -1,19 +1,24 @@
 package com.dotorder.DotOrder.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @DynamicInsert
 @Table(name = "store")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Store{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +38,7 @@ public class Store{
         this.name = name;
         this.gps = gps;
     }
+
+
 
 }
