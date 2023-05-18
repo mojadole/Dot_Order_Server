@@ -1,4 +1,4 @@
-// 주문 생성 함수를 추가합니다.
+// 주문 생성 함수
 function createNewOrder(order, orderDetail) {
     var orderDiv = $("<div>").addClass("order-details").attr("id", "order-details-" + order.idx);
     var orderIdSpan = $("<span>").text(order.idx.toString().padStart(5, '0')).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[메뉴 " + orderDetail.length + "개]&nbsp;&nbsp;합계&nbsp;&nbsp;" + order.price + "원<br>");
@@ -59,18 +59,17 @@ $(document).on('click', '.reject', function() {
 });
 
 
-
-// 웹소켓 연결을 생성합니다. URL은 실제 서버에 맞게 변경해야 합니다.
+// 웹소켓 연결을 생성
 let socket = new WebSocket("ws://13.209.200.143:8080/orders");
 
-// 연결이 열렸을 때 실행할 코드를 설정합니다.
+// 연결이 열렸을 때 실행
 socket.onopen = function(e) {
     console.log("[open] Connection established");
     console.log("Sending to server");
     socket.send("web 연결");
 };
 
-// 메시지를 받았을 때 실행할 코드를 설정합니다.
+// 메시지를 받았을 때 실행
 socket.onmessage = function(event) {
     console.log(`[message] Data received from server: ${event.data}`);
     var data = JSON.parse(event.data);
@@ -81,7 +80,7 @@ socket.onmessage = function(event) {
     }
 };
 
-// 연결이 닫혔을 때 실행할 코드를 설정합니다.
+// 연결이 닫혔을 때 실행
 socket.onclose = function(event) {
     if (event.wasClean) {
         console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
@@ -90,7 +89,7 @@ socket.onclose = function(event) {
     }
 };
 
-// 에러가 발생했을 때 실행할 코드를 설정합니다.
+// 에러가 발생 실행
 socket.onerror = function(error) {
     console.error(`[error] ${error.message}`);
 };
