@@ -1,12 +1,12 @@
 package com.dotorder.DotOrder.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class Sample {
-    @RequestMapping("/sample")
+    @RequestMapping("/web")
     public String greeting(){
-        return "sample!!";
+        return "web";
     }
 }

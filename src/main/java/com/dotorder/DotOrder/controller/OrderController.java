@@ -2,6 +2,7 @@ package com.dotorder.DotOrder.controller;
 
 import com.dotorder.DotOrder.domain.Order;
 import com.dotorder.DotOrder.dto.OrderResponseDto;
+import com.dotorder.DotOrder.dto.OrderUpdateDto;
 import com.dotorder.DotOrder.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,6 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
-
     @GetMapping("{order_idx}")
     @Operation(summary = "/order/{order_idx}", description = "현재 주문한 주문 내역 조회 api")
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable int order_idx) {
@@ -37,5 +37,11 @@ public class OrderController {
         List<OrderResponseDto> orders = orderService.getOrdersByUserId(user_idx);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateOrderStatus(@RequestBody OrderUpdateDto orderUpdateDto) {
+        orderService.updateOrderStatus(orderUpdateDto.getOrderIdx(), orderUpdateDto.getStatus());
+        return ResponseEntity.ok().build();
+    }
+
 
 }
