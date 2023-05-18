@@ -103,6 +103,11 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-
+    @Transactional
+    public void updateOrderStatus(int orderIdx, String status) {
+        Order order = orderRepository.findById(orderIdx)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderIdx));
+        order.setStatus(status);
+    }
 
 }

@@ -1,6 +1,6 @@
 // 주문 생성 함수를 추가합니다.
 function createNewOrder(order, orderDetail) {
-    var orderDiv = $("<div>").addClass("order-details");
+    var orderDiv = $("<div>").addClass("order-details").attr("id", "order-details-" + order.idx);
     var orderIdSpan = $("<span>").text(order.idx.toString().padStart(5, '0')).append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[메뉴 " + orderDetail.length + "개]&nbsp;&nbsp;합계&nbsp;&nbsp;" + order.price + "원<br>");
     orderDiv.append(orderIdSpan);
     orderDiv.append("<br>");
@@ -10,13 +10,55 @@ function createNewOrder(order, orderDetail) {
         orderDiv.append(menuItem);
     }
 
-    var acceptDiv = $("<div>").addClass("accept").text("수락하기");
-    var rejectDiv = $("<div>").addClass("reject").text("거절하기");
+    var acceptDiv = $("<div>").addClass("accept").attr("id", "accept-" + order.idx).text("수락하기");
+    var rejectDiv = $("<div>").addClass("reject").attr("id", "reject-" + order.idx).text("거절하기");
+
     orderDiv.append(acceptDiv);
     orderDiv.append(rejectDiv);
 
     $(".v1_4").append(orderDiv);
+
 }
+//수락
+$(document).on('click', '.accept', function() {
+    var orderIdx = this.id.split('-')[1];
+
+    // 서버로 요청을 보내 상태를 변경합니다.
+    $.ajax({
+        url: '/order/update', // 이 URL을 실제 URL로 변경해야 합니다.
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            orderIdx: orderIdx,
+            status: 'DOING'
+        }),
+        success: function(data) {
+            // 요청이 성공하면 order-details div를 삭제합니다.
+            $('#order-details-' + orderIdx).remove();
+        }
+    });
+});
+//거절
+$(document).on('click', '.reject', function() {
+    var orderIdx = this.id.split('-')[1];
+
+    // 서버로 요청을 보내 상태를 변경합니다.
+    $.ajax({
+        url: '/order/update', // 이 URL을 실제 URL로 변경해야 합니다.
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            orderIdx: orderIdx,
+            status: 'REJECT'
+        }),
+        success: function(data) {
+            // 요청이 성공하면 order-details div를 삭제합니다.
+            $('#order-details-' + orderIdx).remove();
+        }
+    });
+});
+
+
 
 // 웹소켓 연결을 생성합니다. URL은 실제 서버에 맞게 변경해야 합니다.
 let socket = new WebSocket("ws://localhost:8080/orders");
