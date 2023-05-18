@@ -23,7 +23,6 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
-
     @GetMapping("{order_idx}")
     @Operation(summary = "/order/{order_idx}", description = "현재 주문한 주문 내역 조회 api")
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable int order_idx) {

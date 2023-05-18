@@ -37,6 +37,17 @@ public class Order extends BaseTimeEntity {
         this.price= price;
         this.status=status;
     }
+    @Override
+    public String toString() {
+        return "Order{" +
+                "idx=" + idx +
+                ", user=" + user.getIdx() +
+                ", price=" + price +
+                ", status='" + status + '\'' +
+                // 나머지 필드 추가
+                '}';
+    }
+
     public void setStatus(String status) {this.status = status;}
 
 }

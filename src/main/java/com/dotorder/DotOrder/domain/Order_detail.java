@@ -44,4 +44,13 @@ public class Order_detail {
         this.count=count;
         this.good=good;
     }
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "idx=" + idx +
+                ", order=" + order +
+                ", menu=" + menu.getName() +
+                ", count=" + count +
+                '}';
+    }
 }

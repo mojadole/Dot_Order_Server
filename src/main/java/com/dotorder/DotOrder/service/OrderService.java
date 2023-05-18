@@ -30,6 +30,8 @@ public class OrderService {
     OrderRepository orderRepository;
     @Autowired
     OrderDetailRepository orderDetailRepository;
+    @Autowired
+    MyHandler myHandler;
 
     @Transactional
     public Order createOrder(int user_idx) {
@@ -48,6 +50,7 @@ public class OrderService {
         order.setStatus("WAIT");
         orderRepository.save(order);
 
+
         List<Order_detail> orderDetails = carts.stream()
                 .map(cart -> Order_detail.builder()
                         .order(order)
@@ -56,10 +59,15 @@ public class OrderService {
                         .build())
                 .collect(Collectors.toList());
 
-        orderDetailRepository.saveAll(orderDetails);
+        List<OrderDetailResponseDto> orderDetailResponseDtos = orderDetails.stream()
+                .map(OrderDetailResponseDto::new)
+                .collect(Collectors.toList());
 
-        // Clear the user's cart after placing the order
+        myHandler.broadcastOrder(order, orderDetailResponseDtos); //웹소켓 전달
+
+        orderDetailRepository.saveAll(orderDetails);
         cartRepository.deleteAll(carts);
+
         //orderidx만 반환해도 괜찮을듯
         return order;
     }
