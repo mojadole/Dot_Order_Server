@@ -61,7 +61,7 @@ $(document).on('click', '.reject', function() {
 
 
 // 웹소켓 연결을 생성합니다. URL은 실제 서버에 맞게 변경해야 합니다.
-let socket = new WebSocket("ws://localhost:8080/orders");
+let socket = new WebSocket("ws://13.209.200.143:8080/orders");
 
 // 연결이 열렸을 때 실행할 코드를 설정합니다.
 socket.onopen = function(e) {
